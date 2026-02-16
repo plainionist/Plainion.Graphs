@@ -53,6 +53,36 @@ public class WritingDotFilesSpecs
         Assert.That(graph.Clusters.Single(c => c.Id == "cluster_core").Nodes.Select(n => n.Id), Is.EquivalentTo(["C", "D"]));
     }
 
+    [Test]
+    public void EdgesAndSubgraphs()
+    {
+        var builder = new RelaxedGraphBuilder();
+        builder.TryAddCluster("cluster_ui", ["A", "B"]);
+        builder.TryAddCluster("cluster_core", ["C", "D"]);
+        builder.TryAddEdge("A", "C");
+
+        var dot = WriteDot(builder.Graph);
+
+        Assert.That(dot, Is.EqualTo("""
+            digraph {
+              subgraph "cluster_ui" {
+                "A"
+                "B"
+              }
+              subgraph "cluster_core" {
+                "C"
+                "D"
+              }
+              "A"
+              "B"
+              "C"
+              "D"
+              "A" -> "C"
+            }
+            
+            """.ReplaceLineEndings()));
+    }
+
     private static string WriteDot(Graph graph)
     {
         var doc = new DotLangDocument(graph);
