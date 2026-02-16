@@ -7,7 +7,7 @@
     <LangVersion>Latest</LangVersion>
 
     <PackageId>Plainion.Graphs</PackageId>
-    <Version>1.0.0</Version>
+    <Version>1.1.0</Version>
     <Authors>plainionist</Authors>
     <Description>Simple library for graph analysis - the "swiss army knife" of every software engineer.</Description>
     <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>

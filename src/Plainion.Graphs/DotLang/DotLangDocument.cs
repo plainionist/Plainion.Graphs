@@ -3,23 +3,27 @@
 // http://www.graphviz.org/doc/info/lang.html
 public class DotLangDocument
 {
-    private IReadOnlyDictionary<string, string>? myLabels;
+    public DotLangDocument(Graph graph)
+    {
+        Contract.RequiresNotNull(graph, "graph");
 
-    public Graph? Graph { get; private set; }
+        Graph = graph;
+    }
+
+    private IReadOnlyDictionary<string, string>? myLabels = null;
+
+    public Graph Graph { get; private set; }
 
     public static DotLangDocument Load(string path)
     {
-        var doc = new DotLangDocument();
-
-        using (var reader = new StreamReader(path))
-        {
-            doc.Read(reader);
-        }
-
-        return doc;
+        using var reader = new StreamReader(path);
+        return Load(reader);
     }
 
-    public void Read(TextReader reader)
+    public static DotLangDocument Load(TextReader reader)=>
+        Read(reader);
+
+    private static DotLangDocument Read(TextReader reader)
     {
         var visitor = new DotAstVisitor();
 
@@ -27,8 +31,16 @@ public class DotLangDocument
         var parser = new Parser(lexer, visitor);
         parser.Parse();
 
-        Graph = visitor.Graph;
-        myLabels = visitor.Labels;
+        return new DotLangDocument(visitor.Graph) { myLabels = visitor.Labels };
+    }
+
+    public void Write(TextWriter writer)
+    {
+        Contract.RequiresNotNull(writer, "writer");
+        Contract.RequiresNotNull(Graph, "Graph");
+
+        var dotWriter = new DotWriter();
+        dotWriter.Write(Graph, writer);
     }
 
     public string GetLabel(string id) =>

@@ -2,7 +2,7 @@ using Plainion.Graphs.DotLang;
 
 namespace Plainion.Graphs.Specs;
 
-public class DotLangParsingSpecs
+public class ParsingDotFilesSpecs
 {
     [Test]
     public void EdgesOnly()
@@ -20,8 +20,7 @@ public class DotLangParsingSpecs
 
     private static Graph ParseDot(string dot)
     {
-        var doc = new DotLangDocument();
-        doc.Read(new StringReader(dot));
+        var doc = DotLangDocument.Load(new StringReader(dot));
         return doc.Graph!;
     }
 
