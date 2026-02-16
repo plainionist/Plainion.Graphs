@@ -1,78 +1,77 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+class TokenizableStreamBase<T>
 {
-    class TokenizableStreamBase<T>
+    private T[] myItems;
+    private Stack<int> mySnapshotIndexes;
+
+    public TokenizableStreamBase(Func<T[]> extractor)
     {
-        private T[] myItems;
-        private Stack<int> mySnapshotIndexes;
+        Index = 0;
 
-        public TokenizableStreamBase(Func<T[]> extractor)
+        myItems = extractor();
+
+        mySnapshotIndexes = new Stack<int>();
+    }
+
+    protected int Index { get; set; }
+
+    public virtual T? Current
+    {
+        get
         {
-            Index = 0;
-
-            myItems = extractor();
-
-            mySnapshotIndexes = new Stack<int>();
-        }
-
-        protected int Index { get; set; }
-
-        public virtual T? Current
-        {
-            get
+            if (Index >= myItems.Length)
             {
-                if (Index >= myItems.Length)
-                {
-                    return default;
-                }
-
-                return myItems[Index];
-            }
-        }
-
-        public void Consume()
-        {
-            Index++;
-        }
-
-        public bool EndOfStream
-        {
-            get { return Index >= myItems.Length; }
-        }
-
-        public virtual T? Peek(int lookahead)
-        {
-            if (Index + lookahead >= myItems.Length)
-            {
-                return default(T);
+                return default;
             }
 
-            return myItems[Index + lookahead];
-        }
-
-        public void TakeSnapshot()
-        {
-            mySnapshotIndexes.Push(Index);
-        }
-
-        public void RollbackSnapshot()
-        {
-            Index = mySnapshotIndexes.Pop();
-        }
-
-        public void CommitSnapshot()
-        {
-            mySnapshotIndexes.Pop();
+            return myItems[Index];
         }
     }
 
-    class Tokenizer : TokenizableStreamBase<char>
+    public void Consume()
     {
-        public Tokenizer(string source)
-            : base(() => source.ToCharArray())
+        Index++;
+    }
+
+    public bool EndOfStream
+    {
+        get { return Index >= myItems.Length; }
+    }
+
+    public virtual T? Peek(int lookahead)
+    {
+        if (Index + lookahead >= myItems.Length)
         {
+            return default(T);
         }
+
+        return myItems[Index + lookahead];
+    }
+
+    public void TakeSnapshot()
+    {
+        mySnapshotIndexes.Push(Index);
+    }
+
+    public void RollbackSnapshot()
+    {
+        Index = mySnapshotIndexes.Pop();
+    }
+
+    public void CommitSnapshot()
+    {
+        mySnapshotIndexes.Pop();
+    }
+}
+
+class Tokenizer : TokenizableStreamBase<char>
+{
+    public Tokenizer(string source)
+        : base(() => source.ToCharArray())
+    {
     }
 }

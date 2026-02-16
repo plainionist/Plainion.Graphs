@@ -1,74 +1,73 @@
 ﻿using System.Collections.Generic;
 using CodingBot.DotLang.Graph;
 
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+public class DotAstVisitor : IDotAstVisitor
 {
-    public class DotAstVisitor : IDotAstVisitor
+    private readonly RelaxedGraphBuilder myGraphBuilder;
+    private readonly IList<FailedItem> myFailedItems;
+    private readonly Dictionary<string, string> myLabels;
+
+    public DotAstVisitor()
     {
-        private readonly RelaxedGraphBuilder myGraphBuilder;
-        private readonly IList<FailedItem> myFailedItems;
-        private readonly Dictionary<string, string> myLabels;
+        myGraphBuilder = new RelaxedGraphBuilder();
+        myFailedItems = new List<FailedItem>();
+        myLabels = new Dictionary<string, string>();
+    }
 
-        public DotAstVisitor()
+    public Graph.Graph Graph
+    {
+        get { return myGraphBuilder.Graph; }
+    }
+
+    public IReadOnlyDictionary<string, string> Labels => myLabels;
+
+    public Node? VisitNode(string id)
+    {
+        var node = myGraphBuilder.TryAddNode(id);
+        if (node == null)
         {
-            myGraphBuilder = new RelaxedGraphBuilder();
-            myFailedItems = new List<FailedItem>();
-            myLabels = new Dictionary<string, string>();
+            myFailedItems.Add(new FailedItem(id, "Node already exists"));
+            return null;
         }
 
-        public Graph.Graph Graph
+        return node;
+    }
+
+    public Edge? VisitEdge(string sourceNodeId, string targetNodeId)
+    {
+        var edge = myGraphBuilder.TryAddEdge(sourceNodeId, targetNodeId);
+
+        if (edge == null)
         {
-            get { return myGraphBuilder.Graph; }
+            myFailedItems.Add(new FailedItem(Edge.CreateId(sourceNodeId, targetNodeId), "Edge already exists"));
+            return null;
         }
 
-        public IReadOnlyDictionary<string, string> Labels => myLabels;
+        return edge;
+    }
 
-        public Node? VisitNode(string id)
+    public Cluster? VisitCluster(string clusterId, IEnumerable<string> nodes)
+    {
+        var cluster = myGraphBuilder.TryAddCluster(clusterId, nodes);
+        if (cluster == null)
         {
-            var node = myGraphBuilder.TryAddNode(id);
-            if (node == null)
-            {
-                myFailedItems.Add(new FailedItem(id, "Node already exists"));
-                return null;
-            }
-
-            return node;
+            myFailedItems.Add(new FailedItem(clusterId, "Cluster already exists"));
+            return null;
         }
 
-        public Edge? VisitEdge(string sourceNodeId, string targetNodeId)
-        {
-            var edge = myGraphBuilder.TryAddEdge(sourceNodeId, targetNodeId);
+        return cluster;
+    }
 
-            if (edge == null)
-            {
-                myFailedItems.Add(new FailedItem(Edge.CreateId(sourceNodeId, targetNodeId), "Edge already exists"));
-                return null;
-            }
+    public IEnumerable<FailedItem> FailedItems
+    {
+        get { return myFailedItems; }
+    }
 
-            return edge;
-        }
-
-        public Cluster? VisitCluster(string clusterId, IEnumerable<string> nodes)
-        {
-            var cluster = myGraphBuilder.TryAddCluster(clusterId, nodes);
-            if (cluster == null)
-            {
-                myFailedItems.Add(new FailedItem(clusterId, "Cluster already exists"));
-                return null;
-            }
-
-            return cluster;
-        }
-
-        public IEnumerable<FailedItem> FailedItems
-        {
-            get { return myFailedItems; }
-        }
-
-        public void VisitLabel(string id, string value)
-        {
-            myLabels.Add(id, value);
-        }
+    public void VisitLabel(string id, string value)
+    {
+        myLabels.Add(id, value);
     }
 }
 

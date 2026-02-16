@@ -2,22 +2,21 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodingBot.DotLang.Graph
+namespace CodingBot.DotLang.Graph;
+
+[Serializable]
+public class Cluster : IGraphItem
 {
-    [Serializable]
-    public class Cluster : IGraphItem
+    public Cluster(string id, IEnumerable<Node> nodes)
     {
-        public Cluster(string id, IEnumerable<Node> nodes)
-        {
-            Contract.RequiresNotNullNotEmpty(id, nameof(id));
+        Contract.RequiresNotNullNotEmpty(id, nameof(id));
 
-            Id = id;
+        Id = id;
 
-            Nodes = nodes.ToList();
-        }
-
-        public string Id { get; }
-
-        public IReadOnlyCollection<Node> Nodes { get; }
+        Nodes = nodes.ToList();
     }
+
+    public string Id { get; }
+
+    public IReadOnlyCollection<Node> Nodes { get; }
 }

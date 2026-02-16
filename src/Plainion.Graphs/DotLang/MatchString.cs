@@ -1,45 +1,44 @@
 ﻿using System;
 using System.Text;
 
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+class MatchString : MatcherBase
 {
-    class MatchString : MatcherBase
+    public const char QUOTE = '"';
+
+    private char myStringDelim;
+
+    public MatchString(char delim)
     {
-        public const char QUOTE = '"';
+        myStringDelim = delim;
+    }
 
-        private char myStringDelim;
+    protected override Token? IsMatchImpl(Tokenizer tokenizer)
+    {
+        var str = new StringBuilder();
 
-        public MatchString(char delim)
+        if (tokenizer.Current == myStringDelim)
         {
-            myStringDelim = delim;
-        }
+            tokenizer.Consume();
 
-        protected override Token? IsMatchImpl(Tokenizer tokenizer)
-        {
-            var str = new StringBuilder();
+            while (!tokenizer.EndOfStream && tokenizer.Current != myStringDelim)
+            {
+                str.Append(tokenizer.Current);
+                tokenizer.Consume();
+            }
 
             if (tokenizer.Current == myStringDelim)
             {
                 tokenizer.Consume();
-
-                while (!tokenizer.EndOfStream && tokenizer.Current != myStringDelim)
-                {
-                    str.Append(tokenizer.Current);
-                    tokenizer.Consume();
-                }
-
-                if (tokenizer.Current == myStringDelim)
-                {
-                    tokenizer.Consume();
-                }
             }
-
-            if (str.Length > 0)
-            {
-                return new Token(TokenType.QuotedString, str.ToString());
-            }
-
-            return null;
         }
+
+        if (str.Length > 0)
+        {
+            return new Token(TokenType.QuotedString, str.ToString());
+        }
+
+        return null;
     }
 }

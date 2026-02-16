@@ -1,8 +1,7 @@
 ﻿
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+interface IMatcher
 {
-    interface IMatcher
-    {
-        Token? IsMatch(Tokenizer tokenizer);
-    }
+    Token? IsMatch(Tokenizer tokenizer);
 }

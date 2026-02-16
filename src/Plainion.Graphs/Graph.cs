@@ -1,121 +1,120 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodingBot.DotLang.Graph
+namespace CodingBot.DotLang.Graph;
+
+[Serializable]
+public class Graph
 {
-    [Serializable]
-    public class Graph
+    private readonly IDictionary<string, Node> myNodes;
+    private readonly IDictionary<string, Edge> myEdges;
+    private readonly IDictionary<string, Cluster> myClusters;
+
+    public Graph()
     {
-        private readonly IDictionary<string, Node> myNodes;
-        private readonly IDictionary<string, Edge> myEdges;
-        private readonly IDictionary<string, Cluster> myClusters;
+        myNodes = new Dictionary<string, Node>();
+        myEdges = new Dictionary<string, Edge>();
+        myClusters = new Dictionary<string, Cluster>();
+    }
 
-        public Graph()
+    public IEnumerable<Node> Nodes { get { return myNodes.Values; } }
+    public IEnumerable<Edge> Edges { get { return myEdges.Values; } }
+    public IEnumerable<Cluster> Clusters { get { return myClusters.Values; } }
+
+    public bool TryAdd(Node node)
+    {
+        Contract.RequiresNotNull(node, "node");
+
+        Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
+
+        if (myNodes.ContainsKey(node.Id))
         {
-            myNodes = new Dictionary<string, Node>();
-            myEdges = new Dictionary<string, Edge>();
-            myClusters = new Dictionary<string, Cluster>();
+            return false;
         }
 
-        public IEnumerable<Node> Nodes { get { return myNodes.Values; } }
-        public IEnumerable<Edge> Edges { get { return myEdges.Values; } }
-        public IEnumerable<Cluster> Clusters { get { return myClusters.Values; } }
+        myNodes.Add(node.Id, node);
 
-        public bool TryAdd(Node node)
+        return true;
+    }
+
+    public void Add(Node node)
+    {
+        if (!TryAdd(node))
         {
-            Contract.RequiresNotNull(node, "node");
+            throw new ArgumentException("Node already exists: " + node.Id);
+        }
+    }
 
-            Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
+    public bool TryAdd(Edge edge)
+    {
+        Contract.RequiresNotNull(edge, "edge");
 
-            if (myNodes.ContainsKey(node.Id))
-            {
-                return false;
-            }
+        Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
 
-            myNodes.Add(node.Id, node);
-
-            return true;
+        if (myEdges.ContainsKey(edge.Id))
+        {
+            return false;
         }
 
-        public void Add(Node node)
+        myEdges.Add(edge.Id, edge);
+
+        return true;
+    }
+
+    public void Add(Edge edge)
+    {
+        if (!TryAdd(edge))
         {
-            if (!TryAdd(node))
-            {
-                throw new ArgumentException("Node already exists: " + node.Id);
-            }
+            throw new ArgumentException("Edge already exists: " + edge.Id);
+        }
+    }
+
+    public bool TryAdd(Cluster cluster)
+    {
+        Contract.RequiresNotNull(cluster, "cluster");
+
+        Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
+
+        if (myClusters.ContainsKey(cluster.Id))
+        {
+            return false;
         }
 
-        public bool TryAdd(Edge edge)
+        myClusters.Add(cluster.Id, cluster);
+
+        return true;
+    }
+
+    public void Add(Cluster cluster)
+    {
+        if (!TryAdd(cluster))
         {
-            Contract.RequiresNotNull(edge, "edge");
+            throw new ArgumentException("Cluster already exists: " + cluster.Id);
+        }
+    }
 
-            Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
-
-            if (myEdges.ContainsKey(edge.Id))
-            {
-                return false;
-            }
-
-            myEdges.Add(edge.Id, edge);
-
-            return true;
+    public Node? FindNode(string nodeId)
+    {
+        Node? node;
+        if (myNodes.TryGetValue(nodeId, out node))
+        {
+            return node;
         }
 
-        public void Add(Edge edge)
-        {
-            if (!TryAdd(edge))
-            {
-                throw new ArgumentException("Edge already exists: " + edge.Id);
-            }
-        }
+        return null;
+    }
 
-        public bool TryAdd(Cluster cluster)
-        {
-            Contract.RequiresNotNull(cluster, "cluster");
+    public Node GetNode(string nodeId)
+    {
+        var node = FindNode(nodeId);
+        Contract.Requires(node != null, "Node not found: " + nodeId);
+        return node!;
+    }
 
-            Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
+    public bool IsFrozen { get; private set; }
 
-            if (myClusters.ContainsKey(cluster.Id))
-            {
-                return false;
-            }
-
-            myClusters.Add(cluster.Id, cluster);
-
-            return true;
-        }
-
-        public void Add(Cluster cluster)
-        {
-            if (!TryAdd(cluster))
-            {
-                throw new ArgumentException("Cluster already exists: " + cluster.Id);
-            }
-        }
-
-        public Node? FindNode(string nodeId)
-        {
-            Node? node;
-            if (myNodes.TryGetValue(nodeId, out node))
-            {
-                return node;
-            }
-
-            return null;
-        }
-
-        public Node GetNode(string nodeId)
-        {
-            var node = FindNode(nodeId);
-            Contract.Requires(node != null, "Node not found: " + nodeId);
-            return node!;
-        }
-
-        public bool IsFrozen { get; private set; }
-
-        public void Freeze()
-        {
-            IsFrozen = true;
-        }
+    public void Freeze()
+    {
+        IsFrozen = true;
     }
 }

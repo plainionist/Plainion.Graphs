@@ -1,31 +1,30 @@
 ﻿
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+abstract class MatcherBase : IMatcher
 {
-    abstract class MatcherBase : IMatcher
+    public Token? IsMatch(Tokenizer tokenizer)
     {
-        public Token? IsMatch(Tokenizer tokenizer)
+        if (tokenizer.EndOfStream)
         {
-            if (tokenizer.EndOfStream)
-            {
-                return new Token(TokenType.EndOfStream);
-            }
-
-            tokenizer.TakeSnapshot();
-
-            var match = IsMatchImpl(tokenizer);
-
-            if (match == null)
-            {
-                tokenizer.RollbackSnapshot();
-            }
-            else
-            {
-                tokenizer.CommitSnapshot();
-            }
-
-            return match;
+            return new Token(TokenType.EndOfStream);
         }
 
-        protected abstract Token? IsMatchImpl(Tokenizer tokenizer);
+        tokenizer.TakeSnapshot();
+
+        var match = IsMatchImpl(tokenizer);
+
+        if (match == null)
+        {
+            tokenizer.RollbackSnapshot();
+        }
+        else
+        {
+            tokenizer.CommitSnapshot();
+        }
+
+        return match;
     }
+
+    protected abstract Token? IsMatchImpl(Tokenizer tokenizer);
 }

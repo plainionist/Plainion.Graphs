@@ -2,39 +2,38 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+class MatchWord : MatcherBase
 {
-    class MatchWord : MatcherBase
+    private readonly List<MatchKeyword> mySpecialCharacters;
+
+    public MatchWord(IEnumerable<IMatcher> specialCharacters)
     {
-        private readonly List<MatchKeyword> mySpecialCharacters;
+        mySpecialCharacters = specialCharacters.OfType<MatchKeyword>().ToList();
+    }
 
-        public MatchWord(IEnumerable<IMatcher> specialCharacters)
+    protected override Token? IsMatchImpl(Tokenizer tokenizer)
+    {
+        string? current = null;
+
+        while (!tokenizer.EndOfStream && !char.IsWhiteSpace(tokenizer.Current) && mySpecialCharacters.All(m => m.Match.Length > 1 || m.Match[0] != tokenizer.Current))
         {
-            mySpecialCharacters = specialCharacters.OfType<MatchKeyword>().ToList();
+            current += tokenizer.Current;
+            tokenizer.Consume();
         }
 
-        protected override Token? IsMatchImpl(Tokenizer tokenizer)
+        if (current == null)
         {
-            string? current = null;
-
-            while (!tokenizer.EndOfStream && !char.IsWhiteSpace(tokenizer.Current) && mySpecialCharacters.All(m => m.Match.Length > 1 || m.Match[0] != tokenizer.Current))
-            {
-                current += tokenizer.Current;
-                tokenizer.Consume();
-            }
-
-            if (current == null)
-            {
-                return null;
-            }
-
-            // can't start a word with a special character
-            if (mySpecialCharacters.Any(c => current.StartsWith(c.Match)))
-            {
-                throw new Exception(String.Format("Cannot start a word with a special character {0}", current));
-            }
-
-            return new Token(TokenType.Word, current);
+            return null;
         }
+
+        // can't start a word with a special character
+        if (mySpecialCharacters.Any(c => current.StartsWith(c.Match)))
+        {
+            throw new Exception(String.Format("Cannot start a word with a special character {0}", current));
+        }
+
+        return new Token(TokenType.Word, current);
     }
 }

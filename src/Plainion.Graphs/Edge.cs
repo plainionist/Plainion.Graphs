@@ -1,29 +1,28 @@
 ﻿using System;
 
-namespace CodingBot.DotLang.Graph
+namespace CodingBot.DotLang.Graph;
+
+[Serializable]
+public class Edge : IGraphItem
 {
-    [Serializable]
-    public class Edge : IGraphItem
+    public Edge(Node source, Node target)
     {
-        public Edge(Node source, Node target)
-        {
-            Contract.RequiresNotNull(source, nameof(source));
-            Contract.RequiresNotNull(target, nameof(target));
+        Contract.RequiresNotNull(source, nameof(source));
+        Contract.RequiresNotNull(target, nameof(target));
 
-            Source = source;
-            Target = target;
+        Source = source;
+        Target = target;
 
-            Id = CreateId(source.Id, target.Id);
-        }
+        Id = CreateId(source.Id, target.Id);
+    }
 
-        public string Id { get; }
+    public string Id { get; }
 
-        public Node Source { get; }
-        public Node Target { get; }
+    public Node Source { get; }
+    public Node Target { get; }
 
-        public static string CreateId(string sourceId, string targetId)
-        {
-            return $"edge-from-{sourceId}-to-{targetId}";
-        }
+    public static string CreateId(string sourceId, string targetId)
+    {
+        return $"edge-from-{sourceId}-to-{targetId}";
     }
 }

@@ -1,27 +1,26 @@
 ﻿using System;
 using System.Text;
 
-namespace CodingBot.DotLang
+namespace CodingBot.DotLang;
+
+class MatchNewLine : MatcherBase
 {
-    class MatchNewLine : MatcherBase
+    protected override Token? IsMatchImpl(Tokenizer tokenizer)
     {
-        protected override Token? IsMatchImpl(Tokenizer tokenizer)
+        var str = new StringBuilder();
+
+        while (tokenizer.Current == '\r' || tokenizer.Current == '\n')
         {
-            var str = new StringBuilder();
+            str.Append(tokenizer.Current);
 
-            while (tokenizer.Current == '\r' || tokenizer.Current == '\n')
-            {
-                str.Append(tokenizer.Current);
-
-                tokenizer.Consume();
-            }
-
-            if (str.ToString() == Environment.NewLine)
-            {
-                return new Token(TokenType.NewLine);
-            }
-
-            return null;
+            tokenizer.Consume();
         }
+
+        if (str.ToString() == Environment.NewLine)
+        {
+            return new Token(TokenType.NewLine);
+        }
+
+        return null;
     }
 }
