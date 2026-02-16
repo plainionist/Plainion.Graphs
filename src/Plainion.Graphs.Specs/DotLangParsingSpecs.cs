@@ -1,0 +1,68 @@
+using Plainion.Graphs.DotLang;
+
+namespace Plainion.Graphs.Specs;
+
+public class DotLangParsingSpecs
+{
+    [Test]
+    public void EdgesOnly()
+    {
+        var graph = ParseDot("""
+            digraph {
+                A -> B
+                B -> C
+            }
+            """);
+
+        Assert.That(graph.Nodes.Select(n => n.Id), Is.EquivalentTo(["A", "B", "C"]));
+        Assert.That(graph.Edges.Select(e => e.Id), Is.EquivalentTo(["A -> B", "B -> C"]));
+    }
+
+    private static Graph ParseDot(string dot)
+    {
+        var doc = new DotLangDocument();
+        doc.Read(new StringReader(dot));
+        return doc.Graph!;
+    }
+
+    [Test]
+    public void EdgesAndExplicitNodes()
+    {
+        var graph = ParseDot("""
+            digraph {
+                A
+                B
+                C
+                A -> B
+                B -> C
+            }
+            """);
+
+        Assert.That(graph.Nodes.Select(n => n.Id), Is.EquivalentTo(["A", "B", "C"]));
+        Assert.That(graph.Edges.Select(e => e.Id), Is.EquivalentTo(["A -> B", "B -> C"]));
+    }
+
+    [Test]
+    public void Subgraphs()
+    {
+        var graph = ParseDot("""
+            digraph {
+                subgraph cluster_ui {
+                    A
+                    B
+                }
+                subgraph cluster_core {
+                    C
+                    D
+                }
+                A -> C
+            }
+            """);
+
+        Assert.That(graph.Nodes.Select(n => n.Id), Is.EquivalentTo(["A", "B", "C", "D"]));
+        Assert.That(graph.Edges.Select(e => e.Id), Is.EquivalentTo(["A -> C"]));
+        Assert.That(graph.Clusters.Select(c => c.Id), Is.EquivalentTo(["cluster_ui", "cluster_core"]));
+        Assert.That(graph.Clusters.Single(c => c.Id == "cluster_ui").Nodes.Select(n => n.Id), Is.EquivalentTo(["A", "B"]));
+        Assert.That(graph.Clusters.Single(c => c.Id == "cluster_core").Nodes.Select(n => n.Id), Is.EquivalentTo(["C", "D"]));
+    }
+}
