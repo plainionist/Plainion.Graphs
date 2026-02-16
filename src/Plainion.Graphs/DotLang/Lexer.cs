@@ -62,7 +62,7 @@ namespace CodingBot.DotLang
             // substrings of other words, i.e. token fun should not be found in string "function"
             keywordmatchers.ForEach(keyword =>
            {
-               var current = (keyword as MatchKeyword);
+               var current = (MatchKeyword)keyword;
                current.AllowAsSubString = false;
                current.SpecialCharacters = specialCharacters.Cast<MatchKeyword>().ToList();
            });

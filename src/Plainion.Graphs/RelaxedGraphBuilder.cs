@@ -27,7 +27,7 @@ namespace CodingBot.DotLang.Graph
             myGraph.Freeze();
         }
 
-        public Node TryAddNode(string nodeId)
+        public Node? TryAddNode(string nodeId)
         {
             var node = new Node(nodeId);
 
@@ -39,7 +39,7 @@ namespace CodingBot.DotLang.Graph
             return node;
         }
 
-        public Edge TryAddEdge(string sourceNodeId, string targetNodeId)
+        public Edge? TryAddEdge(string sourceNodeId, string targetNodeId)
         {
             var sourceNode = GetOrCreateNode(sourceNodeId);
             var targetNode = GetOrCreateNode(targetNodeId);
@@ -69,7 +69,7 @@ namespace CodingBot.DotLang.Graph
             return node;
         }
 
-        public Cluster TryAddCluster(string clusterId, IEnumerable<string> nodeIds)
+        public Cluster? TryAddCluster(string clusterId, IEnumerable<string> nodeIds)
         {
             var cluster = new Cluster(clusterId, nodeIds.Select(GetOrCreateNode));
 

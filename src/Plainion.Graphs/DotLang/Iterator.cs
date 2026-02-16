@@ -5,8 +5,8 @@ namespace CodingBot.DotLang
 {
     class Iterator
     {
-        private Lexer myLexer;
-        private IList<Token> myTokens;
+        private readonly Lexer myLexer;
+        private readonly IList<Token> myTokens;
         private int myCurrent;
 
         public Iterator(Lexer lexer)
@@ -17,12 +17,12 @@ namespace CodingBot.DotLang
             myCurrent = -1;
         }
 
-        public Token Current
+        public Token? Current
         {
             get { return myTokens[myCurrent]; }
         }
 
-        public Token Next
+        public Token? Next
         {
             get { return myCurrent + 1 < myTokens.Count ? myTokens[myCurrent + 1] : null; }
         }

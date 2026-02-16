@@ -5,7 +5,7 @@ namespace CodingBot.DotLang
 {
     class MatchNumber : MatcherBase
     {
-        protected override Token IsMatchImpl(Tokenizer tokenizer)
+        protected override Token? IsMatchImpl(Tokenizer tokenizer)
         {
             var leftOperand = GetIntegers(tokenizer);
 
@@ -30,9 +30,9 @@ namespace CodingBot.DotLang
             return null;
         }
 
-        private String GetIntegers(Tokenizer tokenizer)
+        private String? GetIntegers(Tokenizer tokenizer)
         {
-            string num = null;
+            string? num = null;
 
             while (char.IsDigit(tokenizer.Current))
             {

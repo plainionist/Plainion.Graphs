@@ -8,7 +8,7 @@ namespace CodingBot.DotLang
         {
         }
 
-        public Token(TokenType tokenType, string token)
+        public Token(TokenType tokenType, string? token)
         {
             Type = tokenType;
             Value = token;
@@ -16,7 +16,7 @@ namespace CodingBot.DotLang
 
         public TokenType Type { get; private set; }
 
-        public string Value { get; private set; }
+        public string? Value { get; private set; }
 
         public override string ToString()
         {

@@ -23,7 +23,7 @@ namespace CodingBot.DotLang
 
         public IReadOnlyDictionary<string, string> Labels => myLabels;
 
-        public Node VisitNode(string id)
+        public Node? VisitNode(string id)
         {
             var node = myGraphBuilder.TryAddNode(id);
             if (node == null)
@@ -35,7 +35,7 @@ namespace CodingBot.DotLang
             return node;
         }
 
-        public Edge VisitEdge(string sourceNodeId, string targetNodeId)
+        public Edge? VisitEdge(string sourceNodeId, string targetNodeId)
         {
             var edge = myGraphBuilder.TryAddEdge(sourceNodeId, targetNodeId);
 
@@ -48,7 +48,7 @@ namespace CodingBot.DotLang
             return edge;
         }
 
-        public Cluster VisitCluster(string clusterId, IEnumerable<string> nodes)
+        public Cluster? VisitCluster(string clusterId, IEnumerable<string> nodes)
         {
             var cluster = myGraphBuilder.TryAddCluster(clusterId, nodes);
             if (cluster == null)

@@ -14,7 +14,7 @@ namespace CodingBot.DotLang
             myStringDelim = delim;
         }
 
-        protected override Token IsMatchImpl(Tokenizer tokenizer)
+        protected override Token? IsMatchImpl(Tokenizer tokenizer)
         {
             var str = new StringBuilder();
 

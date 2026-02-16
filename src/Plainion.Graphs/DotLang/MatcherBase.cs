@@ -3,7 +3,7 @@ namespace CodingBot.DotLang
 {
     abstract class MatcherBase : IMatcher
     {
-        public Token IsMatch(Tokenizer tokenizer)
+        public Token? IsMatch(Tokenizer tokenizer)
         {
             if (tokenizer.EndOfStream)
             {
@@ -26,6 +26,6 @@ namespace CodingBot.DotLang
             return match;
         }
 
-        protected abstract Token IsMatchImpl(Tokenizer tokenizer);
+        protected abstract Token? IsMatchImpl(Tokenizer tokenizer);
     }
 }

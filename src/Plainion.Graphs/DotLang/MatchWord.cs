@@ -6,16 +6,16 @@ namespace CodingBot.DotLang
 {
     class MatchWord : MatcherBase
     {
-        private List<MatchKeyword> mySpecialCharacters;
+        private readonly List<MatchKeyword> mySpecialCharacters;
 
         public MatchWord(IEnumerable<IMatcher> specialCharacters)
         {
             mySpecialCharacters = specialCharacters.OfType<MatchKeyword>().ToList();
         }
 
-        protected override Token IsMatchImpl(Tokenizer tokenizer)
+        protected override Token? IsMatchImpl(Tokenizer tokenizer)
         {
-            string current = null;
+            string? current = null;
 
             while (!tokenizer.EndOfStream && !char.IsWhiteSpace(tokenizer.Current) && mySpecialCharacters.All(m => m.Match.Length > 1 || m.Match[0] != tokenizer.Current))
             {

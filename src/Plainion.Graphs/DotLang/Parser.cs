@@ -17,7 +17,7 @@ namespace CodingBot.DotLang
 
         private readonly Iterator myIterator;
         private readonly IDotAstVisitor myVisitor;
-        private Subgraph myCurrentSubGraph;
+        private Subgraph? myCurrentSubGraph;
 
         public Parser(Lexer lexer, IDotAstVisitor visitor)
         {

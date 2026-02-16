@@ -19,13 +19,13 @@ namespace CodingBot.DotLang
 
         protected int Index { get; set; }
 
-        public virtual T Current
+        public virtual T? Current
         {
             get
             {
                 if (Index >= myItems.Length)
                 {
-                    return default(T);
+                    return default;
                 }
 
                 return myItems[Index];
@@ -42,7 +42,7 @@ namespace CodingBot.DotLang
             get { return Index >= myItems.Length; }
         }
 
-        public virtual T Peek(int lookahead)
+        public virtual T? Peek(int lookahead)
         {
             if (Index + lookahead >= myItems.Length)
             {

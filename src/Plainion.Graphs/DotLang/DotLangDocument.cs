@@ -6,9 +6,9 @@ namespace CodingBot.DotLang
     // http://www.graphviz.org/doc/info/lang.html
     public class DotLangDocument
     {
-        private IReadOnlyDictionary<string, string> myLabels;
+        private IReadOnlyDictionary<string, string>? myLabels;
 
-        public Graph.Graph Graph { get; private set; }
+        public Graph.Graph? Graph { get; private set; }
 
         public static DotLangDocument Load(string path)
         {
@@ -35,6 +35,6 @@ namespace CodingBot.DotLang
         }
 
         public string GetLabel(string id) =>
-            myLabels.TryGetValue(id, out var value) ? value : id;
+            myLabels != null && myLabels.TryGetValue(id, out var value) ? value : id;
     }
 }
