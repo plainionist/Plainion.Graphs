@@ -2,7 +2,7 @@
 
 namespace Plainion.Graphs.Specs;
 
-public class Tests
+public class BuildingGraphsSpecs
 {
     [Test]
     public void AddingEdgesAddsNodesImplicitly()
@@ -12,7 +12,7 @@ public class Tests
 
         var graph = builder.Graph;
 
-        Assert.That(graph.Nodes, Is.EquivalentTo(["A", "B"]));
-        Assert.That(graph.Edges, Is.EquivalentTo(["A -> B"]));
+        Assert.That(graph.Nodes.Select(x => x.Id), Is.EquivalentTo(["A", "B"]));
+        Assert.That(graph.Edges.Select(x => x.Id), Is.EquivalentTo(["A -> B"]));
     }
 }

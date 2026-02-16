@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace Plainion.Graphs;
+﻿namespace Plainion.Graphs;
 
 [Serializable]
-public class Cluster : IGraphItem
+public class Cluster : IGraphItem, IEquatable<Cluster>
 {
     public Cluster(string id, IEnumerable<Node> nodes)
     {
@@ -19,4 +15,14 @@ public class Cluster : IGraphItem
     public string Id { get; }
 
     public IReadOnlyCollection<Node> Nodes { get; }
+
+    public bool Equals(Cluster other) =>
+        other != null && Id == other.Id;
+
+    public override bool Equals(object obj) =>
+        obj is Cluster cluster && Equals(cluster);
+
+    public override int GetHashCode() => Id.GetHashCode();
+
+    public override string ToString() => Id;
 }

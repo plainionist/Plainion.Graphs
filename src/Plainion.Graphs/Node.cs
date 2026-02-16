@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace Plainion.Graphs;
 
 [Serializable]
 [DebuggerDisplay("{Id}")]
-public class Node : IGraphItem
+public class Node : IGraphItem, IEquatable<Node>
 {
     public Node(string id)
     {
@@ -14,12 +12,22 @@ public class Node : IGraphItem
 
         Id = id;
 
-        In = new List<Edge>();
-        Out = new List<Edge>();
+        In = [];
+        Out = [];
     }
 
-    public string Id { get; private set; }
+    public string Id { get; }
 
-    public IList<Edge> In { get; private set; }
-    public IList<Edge> Out { get; private set; }
+    public IList<Edge> In { get; }
+    public IList<Edge> Out { get; }
+
+    public bool Equals(Node other) =>
+        other != null && Id == other.Id;
+
+    public override bool Equals(object obj) =>
+        obj is Node node && Equals(node);
+
+    public override int GetHashCode() => Id.GetHashCode();
+
+    public override string ToString() => Id;
 }

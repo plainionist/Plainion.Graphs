@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Plainion.Graphs;
+﻿namespace Plainion.Graphs;
 
 [Serializable]
 public class Graph
