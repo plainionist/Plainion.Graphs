@@ -21,8 +21,7 @@ public class DotWriter
 
         foreach (var cluster in graph.Clusters)
         {
-            var clusterId = cluster.Id.StartsWith("cluster_") ? cluster.Id : "cluster_" + cluster.Id;
-            writer.WriteLine("  subgraph \"" + clusterId + "\" {");
+            writer.WriteLine("  subgraph \"" + cluster.Id + "\" {");
 
             foreach (var node in cluster.Nodes.OrderBy(n => n.Id))
             {

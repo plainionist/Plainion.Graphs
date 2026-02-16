@@ -57,19 +57,19 @@ public class WritingDotFilesSpecs
     public void EdgesAndSubgraphs()
     {
         var builder = new RelaxedGraphBuilder();
-        builder.TryAddCluster("cluster_ui", ["A", "B"]);
-        builder.TryAddCluster("cluster_core", ["C", "D"]);
+        builder.TryAddCluster("ui", ["A", "B"]);
+        builder.TryAddCluster("core", ["C", "D"]);
         builder.TryAddEdge("A", "C");
 
         var dot = WriteDot(builder.Graph);
 
         Assert.That(dot, Is.EqualTo("""
             digraph {
-              subgraph "cluster_ui" {
+              subgraph "ui" {
                 "A"
                 "B"
               }
-              subgraph "cluster_core" {
+              subgraph "core" {
                 "C"
                 "D"
               }
