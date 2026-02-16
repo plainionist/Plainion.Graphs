@@ -21,8 +21,8 @@ public class Edge : IGraphItem
     public Node Source { get; }
     public Node Target { get; }
 
-    public static string CreateId(string sourceId, string targetId)
-    {
-        return $"edge-from-{sourceId}-to-{targetId}";
-    }
+    public static string CreateId(string sourceId, string targetId) =>
+        $"{sourceId} -> {targetId}";
+
+    public override string ToString() => Id;
 }
