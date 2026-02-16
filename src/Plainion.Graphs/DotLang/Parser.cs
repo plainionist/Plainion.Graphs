@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using CodingBot.DotLang.Graph;
 
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 class Parser
 {

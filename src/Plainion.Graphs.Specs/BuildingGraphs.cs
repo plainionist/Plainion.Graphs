@@ -1,6 +1,6 @@
-﻿using CodingBot.DotLang.Graph;
+﻿using Plainion.Graphs;
 
-namespace src;
+namespace Plainion.Graphs.Specs;
 
 public class Tests
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CodingBot.DotLang.Graph;
+namespace Plainion.Graphs;
 
 [Serializable]
 public class Edge : IGraphItem

@@ -1,5 +1,5 @@
 ﻿
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 class Token
 {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 
-namespace CodingBot.DotLang.Graph;
+namespace Plainion.Graphs;
 
 [Serializable]
 [DebuggerDisplay("{Id}")]

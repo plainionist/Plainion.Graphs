@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using CodingBot.DotLang.Graph;
 
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 public class DotAstVisitor : IDotAstVisitor
 {
@@ -16,7 +15,7 @@ public class DotAstVisitor : IDotAstVisitor
         myLabels = new Dictionary<string, string>();
     }
 
-    public Graph.Graph Graph
+    public Graph Graph
     {
         get { return myGraphBuilder.Graph; }
     }

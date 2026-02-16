@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodingBot.DotLang.Graph;
+namespace Plainion.Graphs;
 
 [Serializable]
 public class Cluster : IGraphItem

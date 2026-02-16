@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 class TokenizableStreamBase<T>
 {

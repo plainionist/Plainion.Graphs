@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
 
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 class MatchNewLine : MatcherBase
 {

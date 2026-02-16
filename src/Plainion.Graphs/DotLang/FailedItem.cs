@@ -1,4 +1,4 @@
-﻿namespace CodingBot.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 public class FailedItem
 {

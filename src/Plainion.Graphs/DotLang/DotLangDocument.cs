@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 // http://www.graphviz.org/doc/info/lang.html
 public class DotLangDocument
 {
     private IReadOnlyDictionary<string, string>? myLabels;
 
-    public Graph.Graph? Graph { get; private set; }
+    public Graph? Graph { get; private set; }
 
     public static DotLangDocument Load(string path)
     {

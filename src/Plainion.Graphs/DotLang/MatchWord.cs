@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CodingBot.DotLang;
+namespace Plainion.Graphs.DotLang;
 
 class MatchWord : MatcherBase
 {

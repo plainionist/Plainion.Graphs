@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CodingBot.DotLang.Graph;
+namespace Plainion.Graphs;
 
 [Serializable]
 public class Graph

@@ -1,4 +1,4 @@
-﻿namespace CodingBot.DotLang.Graph;
+﻿namespace Plainion.Graphs;
 
 // GraphItem are NOT equal just because the ID is equal. Examples: folding and handling only visible edges in folding
 // -> do NOT implement IEquatable
