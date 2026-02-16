@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace Plainion.Graphs.DotLang;
 
@@ -7,7 +6,7 @@ class MatchString : MatcherBase
 {
     public const char QUOTE = '"';
 
-    private char myStringDelim;
+    private readonly char myStringDelim;
 
     public MatchString(char delim)
     {

@@ -1,6 +1,4 @@
-﻿using Plainion.Graphs;
-
-namespace Plainion.Graphs.Specs;
+﻿namespace Plainion.Graphs.Specs;
 
 public class BuildingGraphsSpecs
 {

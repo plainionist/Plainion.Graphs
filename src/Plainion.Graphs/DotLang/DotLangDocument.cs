@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.IO;
-
-namespace Plainion.Graphs.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 // http://www.graphviz.org/doc/info/lang.html
 public class DotLangDocument

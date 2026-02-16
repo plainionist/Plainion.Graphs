@@ -1,5 +1,4 @@
-﻿
-namespace Plainion.Graphs.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 abstract class MatcherBase : IMatcher
 {

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Plainion.Graphs.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 public interface IDotAstVisitor
 {

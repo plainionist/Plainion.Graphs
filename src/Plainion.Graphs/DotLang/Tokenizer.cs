@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Plainion.Graphs.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 class TokenizableStreamBase<T>
 {
-    private T[] myItems;
-    private Stack<int> mySnapshotIndexes;
+    private readonly T[] myItems;
+    private readonly Stack<int> mySnapshotIndexes;
 
     public TokenizableStreamBase(Func<T[]> extractor)
     {
