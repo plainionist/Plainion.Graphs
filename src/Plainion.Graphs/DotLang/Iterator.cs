@@ -17,7 +17,7 @@ namespace CodingBot.DotLang
             myCurrent = -1;
         }
 
-        public Token? Current
+        public Token Current
         {
             get { return myTokens[myCurrent]; }
         }

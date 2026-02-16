@@ -6,11 +6,11 @@ namespace CodingBot.DotLang
 {
     class Parser
     {
-        private class Subgraph
+        private class Subgraph(string name)
         {
             private readonly HashSet<string> myNodes = new();
 
-            public string Name { get; set; }
+            public string Name { get; } = name;
 
             public HashSet<string> Nodes { get { return myNodes; } }
         }
@@ -69,15 +69,14 @@ namespace CodingBot.DotLang
 
                 if (myIterator.Current.Type == TokenType.Subgraph)
                 {
-                    myCurrentSubGraph = new Subgraph();
                     myIterator.MoveNext();
-                    myCurrentSubGraph.Name = myIterator.Current.Value;
+                    myCurrentSubGraph = new Subgraph(myIterator.Current.Value!);
                     continue;
                 }
 
                 if (myIterator.IsNext(TokenType.Assignment))
                 {
-                    if (myCurrentSubGraph != null && myIterator.Current.Value.Equals("label", StringComparison.OrdinalIgnoreCase))
+                    if (myCurrentSubGraph != null && myIterator.Current.Value!.Equals("label", StringComparison.OrdinalIgnoreCase))
                     {
                         // assignment
                         myIterator.MoveNext();
@@ -96,7 +95,7 @@ namespace CodingBot.DotLang
 
                 if (IsNodeDefinition())
                 {
-                    var node = myVisitor.VisitNode(myIterator.Current.Value);
+                    var node = myVisitor.VisitNode(myIterator.Current.Value!);
 
                     // we ignore duplicates
                     if (node != null)
@@ -123,15 +122,15 @@ namespace CodingBot.DotLang
                     myIterator.MoveNext();
                     var target = myIterator.Current;
 
-                    var edge = myVisitor.VisitEdge(source.Value, target.Value);
+                    var edge = myVisitor.VisitEdge(source.Value!, target.Value!);
 
                     if (myCurrentSubGraph != null)
                     {
-                        myCurrentSubGraph.Nodes.Add(source.Value);
-                        myCurrentSubGraph.Nodes.Add(target.Value);
+                        myCurrentSubGraph.Nodes.Add(source.Value!);
+                        myCurrentSubGraph.Nodes.Add(target.Value!);
                     }
 
-                    TryReadAttributes(edge);
+                    TryReadAttributes(edge!);
 
                     continue;
                 }
@@ -165,9 +164,9 @@ namespace CodingBot.DotLang
                 myIterator.MoveNext();
                 var value = myIterator.Current.Value;
 
-                if (key.Equals("label", StringComparison.OrdinalIgnoreCase))
+                if (key!.Equals("label", StringComparison.OrdinalIgnoreCase))
                 {
-                    myVisitor.VisitLabel(owner.Id, value);
+                    myVisitor.VisitLabel(owner.Id, value!);
                 }
 
                 // either colon or end
