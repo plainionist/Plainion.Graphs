@@ -1,22 +1,17 @@
-﻿using System.Text;
-
-namespace Plainion.Graphs.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 class MatchNewLine : MatcherBase
 {
     protected override Token? IsMatchImpl(Tokenizer tokenizer)
     {
-        var str = new StringBuilder();
-
-        while (tokenizer.Current == '\r' || tokenizer.Current == '\n')
+        if (tokenizer.Current == '\r')
         {
-            str.Append(tokenizer.Current);
-
             tokenizer.Consume();
         }
 
-        if (str.ToString() == Environment.NewLine)
+        if (tokenizer.Current == '\n')
         {
+            tokenizer.Consume();
             return new Token(TokenType.NewLine);
         }
 

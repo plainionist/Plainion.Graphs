@@ -31,7 +31,7 @@ class MatchNumber : MatcherBase
     {
         string? num = null;
 
-        while (char.IsDigit(tokenizer.Current))
+        while (!tokenizer.EndOfStream && char.IsDigit(tokenizer.Current))
         {
             num += tokenizer.Current;
             tokenizer.Consume();

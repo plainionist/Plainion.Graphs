@@ -1,23 +1,21 @@
-﻿using System.Text;
-
-namespace Plainion.Graphs.DotLang;
+﻿namespace Plainion.Graphs.DotLang;
 
 class MatchWhiteSpace : MatcherBase
 {
     protected override Token? IsMatchImpl(Tokenizer tokenizer)
     {
-        var str = new StringBuilder();
+        var matched = false;
 
-        while (char.IsWhiteSpace(tokenizer.Current))
+        while (!tokenizer.EndOfStream && char.IsWhiteSpace(tokenizer.Current)
+            && tokenizer.Current != '\r' && tokenizer.Current != '\n')
         {
-            str.Append(tokenizer.Current);
-
+            matched = true;
             tokenizer.Consume();
         }
 
-        if (str.Length > 0)
+        if (matched)
         {
-            return new Token(TokenType.WhiteSpace, str.ToString());
+            return new Token(TokenType.WhiteSpace);
         }
 
         return null;

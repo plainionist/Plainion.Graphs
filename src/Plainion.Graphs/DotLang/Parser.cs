@@ -126,7 +126,15 @@ class Parser
                     myCurrentSubGraph.Nodes.Add(target.Value!);
                 }
 
-                TryReadAttributes(edge!);
+                if (edge != null)
+                {
+                    TryReadAttributes(edge);
+                }
+                else
+                {
+                    // skip attributes of duplicate edge
+                    while ((myIterator.Current.Type != TokenType.SemiColon && myIterator.Current.Type != TokenType.NewLine) && myIterator.MoveNext()) ;
+                }
 
                 continue;
             }
