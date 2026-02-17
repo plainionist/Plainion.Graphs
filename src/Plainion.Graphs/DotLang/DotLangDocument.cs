@@ -12,7 +12,7 @@ public class DotLangDocument
 
     private IReadOnlyDictionary<string, string>? myLabels = null;
 
-    public Graph Graph { get; private set; }
+    public Graph Graph { get; }
 
     public static DotLangDocument Load(string path)
     {
@@ -20,7 +20,7 @@ public class DotLangDocument
         return Load(reader);
     }
 
-    public static DotLangDocument Load(TextReader reader)=>
+    public static DotLangDocument Load(TextReader reader) =>
         Read(reader);
 
     private static DotLangDocument Read(TextReader reader)

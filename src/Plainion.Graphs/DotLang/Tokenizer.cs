@@ -34,10 +34,7 @@ class TokenizableStreamBase<T>
         Index++;
     }
 
-    public bool EndOfStream
-    {
-        get { return Index >= myItems.Length; }
-    }
+    public bool EndOfStream => Index >= myItems.Length;
 
     public virtual T? Peek(int lookahead)
     {

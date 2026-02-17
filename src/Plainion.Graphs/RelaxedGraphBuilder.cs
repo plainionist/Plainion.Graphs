@@ -10,10 +10,7 @@ public class RelaxedGraphBuilder
         myGraph = new Graph();
     }
 
-    public virtual Graph Graph
-    {
-        get { return myGraph; }
-    }
+    public virtual Graph Graph => myGraph;
 
     /// <summary>
     /// Freezes the graph so that it cannot be altered any longer.

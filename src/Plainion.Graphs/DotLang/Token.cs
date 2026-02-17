@@ -13,14 +13,11 @@ class Token
         Value = token;
     }
 
-    public TokenType Type { get; private set; }
+    public TokenType Type { get; }
 
-    public string? Value { get; private set; }
+    public string? Value { get; }
 
-    public override string ToString()
-    {
-        return Type + ": " + Value;
-    }
+    public override string ToString() => Type + ": " + Value;
 }
 
 enum TokenType

@@ -14,9 +14,9 @@ public class Graph
         myClusters = new Dictionary<string, Cluster>();
     }
 
-    public IEnumerable<Node> Nodes { get { return myNodes.Values; } }
-    public IEnumerable<Edge> Edges { get { return myEdges.Values; } }
-    public IEnumerable<Cluster> Clusters { get { return myClusters.Values; } }
+    public IEnumerable<Node> Nodes => myNodes.Values;
+    public IEnumerable<Edge> Edges => myEdges.Values;
+    public IEnumerable<Cluster> Clusters => myClusters.Values;
 
     public bool TryAdd(Node node)
     {
@@ -90,16 +90,8 @@ public class Graph
         }
     }
 
-    public Node? FindNode(string nodeId)
-    {
-        Node? node;
-        if (myNodes.TryGetValue(nodeId, out node))
-        {
-            return node;
-        }
-
-        return null;
-    }
+    public Node? FindNode(string nodeId) =>
+        myNodes.TryGetValue(nodeId, out var node) ? node : null;
 
     public Node GetNode(string nodeId)
     {

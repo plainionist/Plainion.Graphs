@@ -13,10 +13,7 @@ public class DotAstVisitor : IDotAstVisitor
         myLabels = new Dictionary<string, string>();
     }
 
-    public Graph Graph
-    {
-        get { return myGraphBuilder.Graph; }
-    }
+    public Graph Graph => myGraphBuilder.Graph;
 
     public IReadOnlyDictionary<string, string> Labels => myLabels;
 
@@ -57,14 +54,9 @@ public class DotAstVisitor : IDotAstVisitor
         return cluster;
     }
 
-    public IEnumerable<FailedItem> FailedItems
-    {
-        get { return myFailedItems; }
-    }
+    public IEnumerable<FailedItem> FailedItems => myFailedItems;
 
-    public void VisitLabel(string id, string value)
-    {
+    public void VisitLabel(string id, string value) =>
         myLabels.Add(id, value);
-    }
 }
 

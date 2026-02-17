@@ -5,7 +5,7 @@ class MatchKeyword : MatcherBase
     private readonly TokenType myTokenType;
     private HashSet<char>? myDelimiterChars;
 
-    public string Match { get; private set; }
+    public string Match { get; }
 
     /// <summary>
     /// If true then matching on { in a string like "{test" will match the first character
