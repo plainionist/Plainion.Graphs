@@ -21,7 +21,7 @@ public class DotWriter
 
         foreach (var cluster in graph.Clusters)
         {
-            writer.WriteLine("  subgraph \"" + cluster.Id + "\" {");
+            writer.WriteLine($"  subgraph \"{cluster.Id}\" {{");
 
             foreach (var node in cluster.Nodes.OrderBy(n => n.Id))
             {
@@ -50,19 +50,10 @@ public class DotWriter
         writer.WriteLine("}");
     }
 
-    private void Write(TextWriter writer, Node node, string indent)
-    {
-        writer.Write(indent);
-        writer.WriteLine("\"{0}\"", node.Id);
-    }
+    private void Write(TextWriter writer, Node node, string indent) =>
+        writer.WriteLine($"{indent}\"{node.Id}\"");
 
-    private void Write(TextWriter writer, Edge edge, string indent)
-    {
-        writer.Write(indent);
-
-        writer.Write("\"{0}\" -> \"{1}\"", edge.Source.Id, edge.Target.Id);
-
-        writer.WriteLine();
-    }
+    private void Write(TextWriter writer, Edge edge, string indent) =>
+        writer.WriteLine($"{indent}\"{edge.Source.Id}\" -> \"{edge.Target.Id}\"");
 }
 
