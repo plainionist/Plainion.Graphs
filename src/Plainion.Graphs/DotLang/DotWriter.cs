@@ -31,9 +31,15 @@ public class DotWriter
             writer.WriteLine("  }");
         }
 
+        var clusteredNodeIds = new HashSet<string>(
+            graph.Clusters.SelectMany(c => c.Nodes).Select(n => n.Id));
+
         foreach (var node in graph.Nodes.OrderBy(x => x.Id))
         {
-            Write(writer, node, "  ");
+            if (!clusteredNodeIds.Contains(node.Id))
+            {
+                Write(writer, node, "  ");
+            }
         }
 
         foreach (var edge in graph.Edges.OrderBy(x => x.Id))

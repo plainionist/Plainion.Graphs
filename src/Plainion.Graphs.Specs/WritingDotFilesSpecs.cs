@@ -73,10 +73,6 @@ public class WritingDotFilesSpecs
                 "C"
                 "D"
               }
-              "A"
-              "B"
-              "C"
-              "D"
               "A" -> "C"
             }
             
