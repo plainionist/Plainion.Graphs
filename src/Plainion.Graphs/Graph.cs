@@ -1,6 +1,5 @@
 ﻿namespace Plainion.Graphs;
 
-[Serializable]
 public class Graph
 {
     private readonly IDictionary<string, Node> myNodes;

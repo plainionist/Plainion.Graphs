@@ -1,6 +1,6 @@
 ﻿using System.Runtime.CompilerServices;
 
-namespace System;
+namespace Plainion.Graphs;
 
 /// <summary>
 /// Convenience APIs for "Design by Contract".

@@ -1,6 +1,5 @@
 ﻿namespace Plainion.Graphs;
 
-[Serializable]
 public class RelaxedGraphBuilder
 {
     private readonly Graph myGraph;
@@ -10,7 +9,7 @@ public class RelaxedGraphBuilder
         myGraph = new Graph();
     }
 
-    public virtual Graph Graph => myGraph;
+    public Graph Graph => myGraph;
 
     /// <summary>
     /// Freezes the graph so that it cannot be altered any longer.

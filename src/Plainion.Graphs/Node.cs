@@ -2,7 +2,6 @@
 
 namespace Plainion.Graphs;
 
-[Serializable]
 [DebuggerDisplay("{Id}")]
 public class Node : IGraphItem, IEquatable<Node>
 {

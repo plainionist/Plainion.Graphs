@@ -1,6 +1,5 @@
 ﻿namespace Plainion.Graphs;
 
-[Serializable]
 public class Cluster : IGraphItem, IEquatable<Cluster>
 {
     public Cluster(string id, IEnumerable<Node> nodes)

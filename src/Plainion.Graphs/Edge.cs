@@ -1,6 +1,5 @@
 ﻿namespace Plainion.Graphs;
 
-[Serializable]
 public class Edge : IGraphItem, IEquatable<Edge>
 {
     public Edge(Node source, Node target)
