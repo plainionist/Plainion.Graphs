@@ -2,36 +2,46 @@
 
 class Iterator
 {
-    private readonly Lexer myLexer;
-    private readonly IList<Token> myTokens;
-    private int myCurrent;
+    private readonly IEnumerator<Token> myEnumerator;
+    private Token? myCurrent;
+    private Token? myNext;
 
     public Iterator(Lexer lexer)
     {
-        myLexer = lexer;
-        // TODO: this is not very optimal - couldnt we do it with enumerator as well?
-        myTokens = myLexer.Lex().ToList();
-        myCurrent = -1;
+        myEnumerator = lexer.Lex().GetEnumerator();
+
+        // Pre-fetch the first token into myNext so that IsNext works before the first MoveNext
+        if (myEnumerator.MoveNext())
+        {
+            myNext = myEnumerator.Current;
+        }
     }
 
-    public Token Current
-    {
-        get { return myTokens[myCurrent]; }
-    }
+    public Token Current => myCurrent!;
 
-    public Token? Next
-    {
-        get { return myCurrent + 1 < myTokens.Count ? myTokens[myCurrent + 1] : null; }
-    }
+    public Token? Next => myNext;
 
-    public bool IsNext(TokenType tokenType)
-    {
-        return Next != null && Next.Type == tokenType;
-    }
+    public bool IsNext(TokenType tokenType) =>
+        myNext != null && myNext.Type == tokenType;
 
     public bool MoveNext()
     {
-        myCurrent++;
-        return myCurrent < myTokens.Count;
+        if (myNext == null)
+        {
+            return false;
+        }
+
+        myCurrent = myNext;
+
+        if (myEnumerator.MoveNext())
+        {
+            myNext = myEnumerator.Current;
+        }
+        else
+        {
+            myNext = null;
+        }
+
+        return true;
     }
 }

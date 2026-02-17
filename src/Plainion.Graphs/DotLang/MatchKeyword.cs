@@ -2,7 +2,8 @@
 
 class MatchKeyword : MatcherBase
 {
-    private TokenType myTokenType;
+    private readonly TokenType myTokenType;
+    private HashSet<char>? myDelimiterChars;
 
     public string Match { get; private set; }
 
@@ -12,7 +13,18 @@ class MatchKeyword : MatcherBase
     /// </summary>
     public bool AllowAsSubString { get; set; }
 
-    public List<MatchKeyword> SpecialCharacters { get; set; } = [];
+    private List<MatchKeyword> mySpecialCharacters = [];
+
+    public List<MatchKeyword> SpecialCharacters
+    {
+        get => mySpecialCharacters;
+        set
+        {
+            mySpecialCharacters = value;
+            myDelimiterChars = new HashSet<char>(
+                value.Where(c => c.Match.Length == 1).Select(c => c.Match[0]));
+        }
+    }
 
     public MatchKeyword(TokenType type, string match)
     {
@@ -41,7 +53,7 @@ class MatchKeyword : MatcherBase
         {
             var next = tokenizer.Current;
 
-            found = char.IsWhiteSpace(next) || SpecialCharacters.Any(character => character.Match.Length == 1 && character.Match[0] == next);
+            found = char.IsWhiteSpace(next) || (myDelimiterChars != null && myDelimiterChars.Contains(next));
         }
         else
         {

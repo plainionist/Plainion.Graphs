@@ -1,4 +1,6 @@
-﻿namespace Plainion.Graphs.DotLang;
+﻿using System.Text;
+
+namespace Plainion.Graphs.DotLang;
 
 class MatchNumber : MatcherBase
 {
@@ -27,21 +29,21 @@ class MatchNumber : MatcherBase
         return null;
     }
 
-    private String? GetIntegers(Tokenizer tokenizer)
+    private string? GetIntegers(Tokenizer tokenizer)
     {
-        string? num = null;
+        if (tokenizer.EndOfStream || !char.IsDigit(tokenizer.Current))
+        {
+            return null;
+        }
+
+        var sb = new StringBuilder();
 
         while (!tokenizer.EndOfStream && char.IsDigit(tokenizer.Current))
         {
-            num += tokenizer.Current;
+            sb.Append(tokenizer.Current);
             tokenizer.Consume();
         }
 
-        if (num != null)
-        {
-            return num;
-        }
-
-        return null;
+        return sb.ToString();
     }
 }
