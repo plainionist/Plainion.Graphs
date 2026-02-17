@@ -17,75 +17,33 @@ public class Graph
     public IEnumerable<Edge> Edges => myEdges.Values;
     public IEnumerable<Cluster> Clusters => myClusters.Values;
 
-    public bool TryAdd(Node node)
-    {
-        Contract.RequiresNotNull(node, "node");
+    public bool TryAdd(Node node) => TryAdd(node, myNodes);
+    public bool TryAdd(Edge edge) => TryAdd(edge, myEdges);
+    public bool TryAdd(Cluster cluster) => TryAdd(cluster, myClusters);
 
+    public void Add(Node node) => Add(node, myNodes);
+    public void Add(Edge edge) => Add(edge, myEdges);
+    public void Add(Cluster cluster) => Add(cluster, myClusters);
+
+    private bool TryAdd<T>(T item, IDictionary<string, T> store) where T : IGraphItem
+    {
+        Contract.RequiresNotNull(item, nameof(item));
         Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
 
-        if (myNodes.ContainsKey(node.Id))
+        if (store.ContainsKey(item.Id))
         {
             return false;
         }
 
-        myNodes.Add(node.Id, node);
-
+        store.Add(item.Id, item);
         return true;
     }
 
-    public void Add(Node node)
+    private void Add<T>(T item, IDictionary<string, T> store) where T : IGraphItem
     {
-        if (!TryAdd(node))
+        if (!TryAdd(item, store))
         {
-            throw new ArgumentException("Node already exists: " + node.Id);
-        }
-    }
-
-    public bool TryAdd(Edge edge)
-    {
-        Contract.RequiresNotNull(edge, "edge");
-
-        Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
-
-        if (myEdges.ContainsKey(edge.Id))
-        {
-            return false;
-        }
-
-        myEdges.Add(edge.Id, edge);
-
-        return true;
-    }
-
-    public void Add(Edge edge)
-    {
-        if (!TryAdd(edge))
-        {
-            throw new ArgumentException("Edge already exists: " + edge.Id);
-        }
-    }
-
-    public bool TryAdd(Cluster cluster)
-    {
-        Contract.RequiresNotNull(cluster, "cluster");
-
-        Contract.Invariant(!IsFrozen, "Graph is frozen and cannot be modified");
-
-        if (myClusters.ContainsKey(cluster.Id))
-        {
-            return false;
-        }
-
-        myClusters.Add(cluster.Id, cluster);
-
-        return true;
-    }
-
-    public void Add(Cluster cluster)
-    {
-        if (!TryAdd(cluster))
-        {
-            throw new ArgumentException("Cluster already exists: " + cluster.Id);
+            throw new ArgumentException($"{typeof(T).Name} already exists: {item.Id}");
         }
     }
 
