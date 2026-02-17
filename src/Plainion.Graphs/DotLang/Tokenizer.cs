@@ -1,71 +1,25 @@
 ﻿namespace Plainion.Graphs.DotLang;
 
-class TokenizableStreamBase<T>
+class Tokenizer
 {
-    private readonly T[] myItems;
-    private readonly Stack<int> mySnapshotIndexes;
+    private readonly char[] myChars;
+    private readonly Stack<int> mySnapshotIndexes = new();
+    private int myIndex;
 
-    public TokenizableStreamBase(Func<T[]> extractor)
-    {
-        Index = 0;
-
-        myItems = extractor();
-
-        mySnapshotIndexes = new Stack<int>();
-    }
-
-    protected int Index { get; set; }
-
-    public virtual T? Current
-    {
-        get
-        {
-            if (Index >= myItems.Length)
-            {
-                return default;
-            }
-
-            return myItems[Index];
-        }
-    }
-
-    public void Consume()
-    {
-        Index++;
-    }
-
-    public bool EndOfStream => Index >= myItems.Length;
-
-    public virtual T? Peek(int lookahead)
-    {
-        if (Index + lookahead >= myItems.Length)
-        {
-            return default(T);
-        }
-
-        return myItems[Index + lookahead];
-    }
-
-    public void TakeSnapshot()
-    {
-        mySnapshotIndexes.Push(Index);
-    }
-
-    public void RollbackSnapshot()
-    {
-        Index = mySnapshotIndexes.Pop();
-    }
-
-    public void CommitSnapshot()
-    {
-        mySnapshotIndexes.Pop();
-    }
-}
-
-class Tokenizer : TokenizableStreamBase<char>
-{
     public Tokenizer(string source)
-        : base(() => source.ToCharArray())
     {
+        myChars = source.ToCharArray();
     }
+
+    public char Current => myIndex < myChars.Length ? myChars[myIndex] : default;
+
+    public bool EndOfStream => myIndex >= myChars.Length;
+
+    public void Consume() => myIndex++;
+
+    public void TakeSnapshot() => mySnapshotIndexes.Push(myIndex);
+
+    public void RollbackSnapshot() => myIndex = mySnapshotIndexes.Pop();
+
+    public void CommitSnapshot() => mySnapshotIndexes.Pop();
 }
